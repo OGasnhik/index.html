@@ -1,0 +1,29 @@
+[
+  {
+    "part_number": "399423",
+    "name_en": "3m Straight Umbilical, IP65, positive air pump",
+    "name_ru": "Кабель 3м прямой, IP65, насос",
+    "brand": "videojet",
+    "models": ["1620", "1650"],
+    "assembly": "umbilical",
+    "notes": ""
+  },
+  {
+    "part_number": "399424",
+    "name_en": "3m Straight Umbilical, IP65 air dryer kit",
+    "name_ru": "Кабель 3м, IP65, комплект осушителя",
+    "brand": "videojet",
+    "models": ["1620"],
+    "assembly": "umbilical",
+    "notes": ""
+  },
+  {
+    "part_number": "VJ-PH-001",
+    "name_en": "Printhead cover",
+    "name_ru": "Крышка печатающей головы",
+    "brand": "videojet",
+    "models": ["1620", "1860"],
+    "assembly": "printhead",
+    "notes": "Тестовая запись"
+  }
+]
