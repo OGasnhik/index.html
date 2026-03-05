@@ -10,11 +10,19 @@
   <header class="wrap">
     <h1>Каталог запчастей</h1>
 
-    <div class="row">
-      <select id="brand"></select>
-      <select id="model" disabled></select>
-      <select id="assembly" disabled></select>
-    </div>
+ <div class="row">
+  <select id="brand"></select>
+  <select id="model" disabled></select>
+  <select id="assembly" disabled></select>
+</div>
+
+<div class="row">
+  <input id="q" type="search" placeholder="Поиск: парт-номер / EN / RU… (можно: pump, кабель)" />
+  <button id="refresh" title="Перезагрузить данные">Обновить</button>
+</div>
+
+<!-- NEW: быстрые кнопки моделей -->
+<div class="row" id="modelChips"></div>
 
     <div class="row">
       <input id="q" type="search" placeholder="Поиск: парт-номер / EN / RU…" />
