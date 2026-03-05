@@ -196,3 +196,24 @@ main.wrap{
   .wrap{ padding: 14px; }
   h1{ font-size: 17px; }
 }
+#modelChips{
+  gap:8px;
+  margin-top: 6px;
+}
+.chip{
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+.chip:hover{
+  border-color: rgba(110,231,255,.55);
+}
+.chip.active{
+  border-color: rgba(110,231,255,.75);
+  box-shadow: 0 0 0 4px rgba(110,231,255,.10);
+}
