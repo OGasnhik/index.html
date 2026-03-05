@@ -1,1 +1,10 @@
-
+{
+  "brands": [
+    {
+      "id": "videojet",
+      "title": "Videojet",
+      "parts": "database/videojet/parts.json",
+      "assemblies": "database/videojet/assemblies.json"
+    }
+  ]
+}
