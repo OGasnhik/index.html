@@ -1,0 +1,9 @@
+{
+  "assemblies": [
+    { "id": "printhead", "title": "Printhead / Печатающая голова" },
+    { "id": "ink_system", "title": "Ink System / Система чернил" },
+    { "id": "filters", "title": "Filters / Фильтры" },
+    { "id": "electronics", "title": "Electronics / Электроника" },
+    { "id": "umbilical", "title": "Umbilical / Шланг-кабель" }
+  ]
+}
