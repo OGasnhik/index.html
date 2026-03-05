@@ -69,7 +69,47 @@ function rebuildModels() {
   );
   $("model").disabled = false;
 }
+function renderModelChips() {
 
+  const box = document.getElementById("modelChips");
+
+  if (!box) return;
+
+  const currentModel = document.getElementById("model").value;
+
+  const models = Array.from(state.modelsSet).sort((a,b)=>
+    a.localeCompare(b,"en",{numeric:true})
+  );
+
+  box.innerHTML = models.map(model => {
+
+    const active = model === currentModel ? "active" : "";
+
+    return `<div class="chip ${active}" data-model="${model}">
+      ${model}
+    </div>`;
+
+  }).join("");
+
+  box.querySelectorAll(".chip").forEach(el => {
+
+    el.addEventListener("click", () => {
+
+      const model = el.getAttribute("data-model");
+
+      document.getElementById("model").value = model;
+
+      render();
+
+      renderModelChips();
+
+      document.getElementById("results")
+        ?.scrollIntoView({behavior:"smooth"});
+    });
+
+  });
+
+}
 function rebuildAssemblies() {
   fillSelect($("assembly"), state.assemblies, { placeholder: "Assembly (узел)" });
   $("assembly").disabled = false;
@@ -150,6 +190,9 @@ async function loadBrand(brandId) {
   const [parts, assemblies] = await Promise.all([
     fetchJson(b.parts),
     fetchJson(b.assemblies)
+    rebuildModels();
+rebuildAssemblies();
+  renderModelChips();
   ]);
 
   state.parts = Array.isArray(parts) ? parts : [];
@@ -180,7 +223,10 @@ async function init() {
     await loadBrand(brandId);
   });
 
-  $("model").addEventListener("change", render);
+$("model").addEventListener("change", () => {
+  render();
+  renderModelChips();
+});
   $("assembly").addEventListener("change", render);
 
   $("q").addEventListener("input", () => {
