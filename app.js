@@ -27,7 +27,6 @@ function escapeHtml(str) {
 }
 
 async function fetchJson(url) {
-  // чтобы GitHub Pages не отдавал старую версию из кеша
   const u = `${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`;
   const r = await fetch(u);
   if (!r.ok) throw new Error(`Не удалось загрузить ${url} (${r.status})`);
@@ -69,50 +68,36 @@ function rebuildModels() {
   );
   $("model").disabled = false;
 }
-function renderModelChips() {
 
-  const box = document.getElementById("modelChips");
-
-  if (!box) return;
-
-  const currentModel = document.getElementById("model").value;
-
-  const models = Array.from(state.modelsSet).sort((a,b)=>
-    a.localeCompare(b,"en",{numeric:true})
-  );
-
-  box.innerHTML = models.map(model => {
-
-    const active = model === currentModel ? "active" : "";
-
-    return `<div class="chip ${active}" data-model="${model}">
-      ${model}
-    </div>`;
-
-  }).join("");
-
-  box.querySelectorAll(".chip").forEach(el => {
-
-    el.addEventListener("click", () => {
-
-      const model = el.getAttribute("data-model");
-
-      document.getElementById("model").value = model;
-
-      render();
-
-      renderModelChips();
-
-      document.getElementById("results")
-        ?.scrollIntoView({behavior:"smooth"});
-    });
-
-  });
-
-}
 function rebuildAssemblies() {
   fillSelect($("assembly"), state.assemblies, { placeholder: "Assembly (узел)" });
   $("assembly").disabled = false;
+}
+
+/** NEW: быстрые кнопки моделей */
+function renderModelChips() {
+  const box = $("modelChips");
+  if (!box) return;
+
+  const current = $("model").value;
+  const models = Array.from(state.modelsSet).sort((a, b) =>
+    a.localeCompare(b, "en", { numeric: true })
+  );
+
+  box.innerHTML = models.map(m => {
+    const active = m === current ? "active" : "";
+    return `<div class="chip ${active}" data-model="${m}">${m}</div>`;
+  }).join("");
+
+  box.querySelectorAll(".chip").forEach(el => {
+    el.addEventListener("click", () => {
+      const m = el.getAttribute("data-model");
+      $("model").value = m;
+      render();
+      renderModelChips();
+      $("results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 }
 
 function matchesFilters(p, model, assembly, q) {
@@ -190,9 +175,6 @@ async function loadBrand(brandId) {
   const [parts, assemblies] = await Promise.all([
     fetchJson(b.parts),
     fetchJson(b.assemblies)
-    rebuildModels();
-rebuildAssemblies();
-  renderModelChips();
   ]);
 
   state.parts = Array.isArray(parts) ? parts : [];
@@ -201,12 +183,14 @@ rebuildAssemblies();
 
   rebuildModels();
   rebuildAssemblies();
+  renderModelChips();
 
   $("model").value = "";
   $("assembly").value = "";
   $("q").value = "";
 
   render();
+  renderModelChips();
 }
 
 async function init() {
@@ -223,10 +207,11 @@ async function init() {
     await loadBrand(brandId);
   });
 
-$("model").addEventListener("change", () => {
-  render();
-  renderModelChips();
-});
+  $("model").addEventListener("change", () => {
+    render();
+    renderModelChips();
+  });
+
   $("assembly").addEventListener("change", render);
 
   $("q").addEventListener("input", () => {
